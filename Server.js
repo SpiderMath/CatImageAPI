@@ -1,13 +1,24 @@
-require("dotenv").config();
+require( "dotenv" ).config( );
 
-const express = require("express");
+const express = require( "express" );
+const { readdirSync } = require( "fs" );
+const { join } = require( "path" );
 
-const app = express();
+const assets = readdirSync( join( __dirname, "./Assets/" ) )
+	.map( ( fName ) =>  join( __dirname, "./Assets/", fName ) );
 
-app.listen(process.env.PORT, () => {
-	console.log(`Listening for API Calls on Port ${process.env.PORT}`);
-});
+const app = express( );
 
-app.get("/", (req, res) => {
-	res.send("Hello world");
-});
+app.listen( process.env.PORT, ( ) => {
+	console.log( `Listening for API Calls on Port ${process.env.PORT}` );
+} );
+
+app.get( "/", ( req, res ) => {
+	res.send( "Hello world" );
+} );
+
+app.get( "/random", ( req, res ) => {
+	res.sendFile(
+		assets[ assets.length - 1 ],
+	);
+} );
